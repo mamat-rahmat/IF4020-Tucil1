@@ -3,7 +3,7 @@
  */
 
 public class PlayFairCipher {
-    public static String[][] getMatrixFromKey(String key) {
+    public static char[][] getMatrixFromKey(String key) {
         String keystringbasic = key + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String keystring = "";
         for(int i=0; i<keystringbasic.length(); i++) {
@@ -14,7 +14,7 @@ public class PlayFairCipher {
             }
         }
 
-        String[][] res = new String[5][5];
+        char[][] res = new char[5][5];
         int it=0;
         for(int i=0; i<5; i++) {
             for(int j=0; j<5; j++) {
@@ -29,7 +29,7 @@ public class PlayFairCipher {
                     }
 
                     if(!used) {
-                        res[i][j] = "" + next;
+                        res[i][j] = next;
                         assigned = true;
                     } else {
                         it++;
@@ -63,7 +63,6 @@ public class PlayFairCipher {
                 result += next;
                 prev = next;
             }
-
         }
 
         // add 'Z' if result length is odd
@@ -94,7 +93,6 @@ public class PlayFairCipher {
                     result += c;
                 }
             }
-
         }
 
         return result;
@@ -105,7 +103,7 @@ public class PlayFairCipher {
         String[] result = new String[size];
 
         for(int i=0; i<size; i++) {
-            result[i] = "" + text.charAt(2*i) + text.charAt(2*i+1);
+            result[i] = Character.toString(text.charAt(2*i)) + Character.toString(text.charAt(2*i+1));
         }
 
         return result;
@@ -120,50 +118,45 @@ public class PlayFairCipher {
         return text;
     }
 
-     public static int getPosR(String[][] matrix, String c) {
+    public static int getPosR(char[][] matrix, char c) {
         int res = 0;
         for(int i=0; i<5; i++)
             for(int j=0; j<5; j++)
-                if(matrix[i][j].equals(c))
+                if(matrix[i][j] == c)
                     res = i;
         return res;
     }
 
-    public static int getPosC(String[][] matrix, String c) {
+    public static int getPosC(char[][] matrix, char c) {
         int res = 0;
         for(int i=0; i<5; i++)
             for(int j=0; j<5; j++)
-                if(matrix[i][j].equals(c))
+                if(matrix[i][j] == c)
                     res = j;
         return res;
     }
 
     public static String encrypt(String plaintext, String key) {
         String ciphertext = "";
-        String[][] matrix = getMatrixFromKey(key);
+        char[][] matrix = getMatrixFromKey(key);
         String preparedText = getPreparedText(plaintext);
         String[] bigram = getBigramFromText(preparedText);
         String[] result = new String[bigram.length];
 
         for(int i=0; i<bigram.length; i++) {
-            int r1 = getPosR(matrix, ""+bigram[i].charAt(0));
-            int c1 = getPosC(matrix, ""+bigram[i].charAt(0));
+            int r1 = getPosR(matrix, bigram[i].charAt(0));
+            int c1 = getPosC(matrix, bigram[i].charAt(0));
 
-            int r2 = getPosR(matrix, ""+bigram[i].charAt(1));
-            int c2 = getPosC(matrix, ""+bigram[i].charAt(1));
+            int r2 = getPosR(matrix, bigram[i].charAt(1));
+            int c2 = getPosC(matrix, bigram[i].charAt(1));
 
-            //if((r1 > 1) && (r2>1)) {
-                if(r1==r2) {
-                    result[i] = matrix[r1][(c1+1)%5] + matrix[r2][(c2+1)%5];
-                } else if (c1==c2) {
-                    result[i] = matrix[(r1+1)%5][c1] + matrix[(r2+1)%5][c2];
-                } else {
-                    result[i] = matrix[r1][c2] + matrix[r2][c1];
-                }
-            //} else {
-            //    result[i] = "--";
-            //}
-
+            if(r1==r2) {
+                result[i] = Character.toString(matrix[r1][(c1+1)%5]) + Character.toString(matrix[r2][(c2+1)%5]);
+            } else if (c1==c2) {
+                result[i] = Character.toString(matrix[(r1+1)%5][c1]) + Character.toString(matrix[(r2+1)%5][c2]);
+            } else {
+                result[i] = Character.toString(matrix[r1][c2]) + Character.toString(matrix[r2][c1]);
+            }
         }
 
         ciphertext = getTextFromBigram(result);
@@ -172,27 +165,23 @@ public class PlayFairCipher {
 
     public static String decrypt(String ciphertext, String key) {
         String plaintext = "";
-        String[][] matrix = getMatrixFromKey(key);
+        char[][] matrix = getMatrixFromKey(key);
         String[] bigram = getBigramFromText(ciphertext);
         String[] result = new String[bigram.length];
 
         for(int i=0; i<bigram.length; i++) {
-            int r1 = getPosR(matrix, ""+bigram[i].charAt(0));
-            int c1 = getPosC(matrix, ""+bigram[i].charAt(0));
+            int r1 = getPosR(matrix, bigram[i].charAt(0));
+            int c1 = getPosC(matrix, bigram[i].charAt(0));
 
-            int r2 = getPosR(matrix, ""+bigram[i].charAt(1));
-            int c2 = getPosC(matrix, ""+bigram[i].charAt(1));
+            int r2 = getPosR(matrix, bigram[i].charAt(1));
+            int c2 = getPosC(matrix, bigram[i].charAt(1));
 
-            if((r1 > 1) && (r2>1)) {
-                if(r1==r2) {
-                    result[i] = matrix[r1][(c1+4)%5] + matrix[r2][(c2+4)%5];
-                } else if (c1==c2) {
-                    result[i] = matrix[(r1+4)%5][c1] + matrix[(r2+4)%5][c2];
-                } else {
-                    result[i] = matrix[r1][c2] + matrix[r2][c1];
-                }
+            if(r1==r2) {
+                result[i] = Character.toString(matrix[r1][(c1+4)%5]) + Character.toString(matrix[r2][(c2+4)%5]);
+            } else if (c1==c2) {
+                result[i] = Character.toString(matrix[(r1+4)%5][c1]) + Character.toString(matrix[(r2+4)%5][c2]);
             } else {
-                result[i] = "--";
+                result[i] = Character.toString(matrix[r1][c2]) + Character.toString(matrix[r2][c1]);
             }
         }
 

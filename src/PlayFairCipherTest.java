@@ -3,26 +3,25 @@
  */
 public class PlayFairCipherTest {
     public static void main(String[] args) {
-        String key = "KEYWORD";
-        PlayFairCipher pf = new PlayFairCipher();
-        String[][] matrix = pf.getMatrixFromKey(key);
+        String key = "STANDSEARCHBACK";
+        char[][] matrix = PlayFairCipher.getMatrixFromKey(key);
         for(int i=0; i<5; i++) {
             for(int j=0; j<5; j++) {
-                System.out.print(matrix[i][j]);
+                System.out.print(Character.toString(matrix[i][j]));
             }
             System.out.println();
         }
 
-        String plaintext = "AJI JANGAN SAMPAI MAATII";
+        String plaintext = "NATTERJACKTOAD";
 
         System.out.println("#encrypting");
         System.out.println("plaintext = " + plaintext + ", key = " + key);
-        String ciphertext = pf.encrypt(plaintext, key);
+        String ciphertext = PlayFairCipher.encrypt(plaintext, key);
         System.out.println("ciphertext = " + ciphertext);
 
         System.out.println("#decrypting");
         System.out.println("ciphertext = " + ciphertext + ", key = " + key);
-        plaintext = pf.decrypt(ciphertext, key);
+        plaintext = PlayFairCipher.decrypt(ciphertext, key);
         System.out.println("plaintext = " + plaintext);
 
     }
