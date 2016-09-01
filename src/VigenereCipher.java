@@ -9,7 +9,7 @@ public class VigenereCipher {
         String ciphertext = "";
         for(int i=0, j=0; i<plaintext.length(); i++){
             char c = plaintext.charAt(i);
-            if (c != ' ') {
+            if (c >= 'A' && c <='Z') {
                 ciphertext += (char) ((c + key.charAt(j) - 2 * 'A') % 26 + 'A');
                 j = (j+1)%key.length();
             } else {
@@ -27,7 +27,7 @@ public class VigenereCipher {
         String plaintext = "";
         for(int i=0, j=0; i<ciphertext.length(); i++){
             char c = ciphertext.charAt(i);
-            if (c != ' ') {
+            if (c >= 'A' && c <='Z') {
                 plaintext += (char) ((c - key.charAt(j) + 26) % 26 + 'A');
                 j = (j+1)%key.length();
             } else {
