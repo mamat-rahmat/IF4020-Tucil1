@@ -7,9 +7,15 @@ public class VigenereCipher {
         key = key.toUpperCase();
 
         String ciphertext = "";
-        for(int i=0, j=0; i<plaintext.length(); i++, j=(j+1)%key.length()){
+        for(int i=0, j=0; i<plaintext.length(); i++){
             char c = plaintext.charAt(i);
-            ciphertext += (char) ((c + key.charAt(j) - 2 * 'A') % 26 + 'A');
+            if (c != ' ') {
+                ciphertext += (char) ((c + key.charAt(j) - 2 * 'A') % 26 + 'A');
+                j = (j+1)%key.length();
+            } else {
+                ciphertext += key.charAt(j);
+            }
+
         }
         return ciphertext;
     }
@@ -19,10 +25,14 @@ public class VigenereCipher {
         key = key.toUpperCase();
 
         String plaintext = "";
-        for(int i=0, j=0; i<ciphertext.length(); i++, j=(j+1)%key.length()){
+        for(int i=0, j=0; i<ciphertext.length(); i++){
             char c = ciphertext.charAt(i);
-            plaintext += (char) ((c - key.charAt(j) + 26) % 26 + 'A');
-
+            if (c != ' ') {
+                plaintext += (char) ((c - key.charAt(j) + 26) % 26 + 'A');
+                j = (j+1)%key.length();
+            } else {
+                plaintext += key.charAt(j);
+            }
         }
         return plaintext;
     }
