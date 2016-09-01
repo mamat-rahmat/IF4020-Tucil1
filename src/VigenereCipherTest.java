@@ -3,8 +3,8 @@
  */
 public class VigenereCipherTest {
     public static void main(String[] args) {
-        String plaintext = "MAMATRAHMAT";
-        String key = "MAMATRAHMAT";
+        String plaintext = "THIS PLAINTEXT";
+        String key = "sony";
 
         System.out.println("#encrypting");
         System.out.println("plaintext = " + plaintext + ", key = " + key);

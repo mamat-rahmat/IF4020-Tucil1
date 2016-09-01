@@ -18,7 +18,6 @@ public class VigenereCipherExtended {
             char c = ciphertext.charAt(i);
             int code = ((AsciiUtils.getCode(c) - AsciiUtils.getCode(key.charAt(j)) + 256) % 256);
             plaintext += AsciiUtils.getAscii(code);
-
         }
         return plaintext;
     }
