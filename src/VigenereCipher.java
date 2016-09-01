@@ -13,7 +13,7 @@ public class VigenereCipher {
                 ciphertext += (char) ((c + key.charAt(j) - 2 * 'A') % 26 + 'A');
                 j = (j+1)%key.length();
             } else {
-                ciphertext += key.charAt(j);
+                ciphertext += c;
             }
 
         }
@@ -31,7 +31,7 @@ public class VigenereCipher {
                 plaintext += (char) ((c - key.charAt(j) + 26) % 26 + 'A');
                 j = (j+1)%key.length();
             } else {
-                plaintext += key.charAt(j);
+                plaintext += c;
             }
         }
         return plaintext;
